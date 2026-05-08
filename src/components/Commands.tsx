@@ -17,22 +17,22 @@ monitoring  prometheus-0            2/2     Running  21d`,
     sig: "kdm health <target>",
     desc: "Detailed health, liveness, and resource pressure diagnostics.",
     output: `> kdm health pods
-✓ api-server-7d4f8b       healthy    cpu 12%   mem 248Mi
-✓ worker-queue-2c9a1      healthy    cpu 34%   mem 512Mi
-⚠ log-shipper-abc12       degraded   restarts: 3 (last 1h)
-✗ batch-runner-99fa1      failing    OOMKilled · 2x in 5m`,
+[ok]    api-server-7d4f8b       healthy    cpu 12%   mem 248Mi
+[ok]    worker-queue-2c9a1      healthy    cpu 34%   mem 512Mi
+[warn]  log-shipper-abc12       degraded   restarts: 3 (last 1h)
+[fail]  batch-runner-99fa1      failing    OOMKilled · 2x in 5m`,
   },
   {
     name: "watch",
     sig: "kdm watch",
     desc: "Live monitoring dashboard right inside your terminal.",
     output: `> kdm watch
-┌─ Live · 14:02:31 ──────────────────────────┐
-│ pods: 24 running · 1 pending · 0 failed    │
-│ cpu:  ▆▆▇▇█▇▆▅▅▆▇█▇▆  62%                 │
-│ mem:  ▃▄▄▅▅▆▆▇▇▆▅▄▄▃  41%                 │
-│ net:  ↓ 124 MB/s   ↑ 38 MB/s               │
-└────────────────────────────────────────────┘`,
++- Live - 14:02:31 ----------------------------+
+| pods: 24 running · 1 pending · 0 failed      |
+| cpu:  ######========  62%                    |
+| mem:  ####==========  41%                    |
+| net:  in 124 MB/s   out 38 MB/s              |
++----------------------------------------------+`,
   },
   {
     name: "logs",
@@ -51,41 +51,40 @@ export const Commands = () => {
   const cmd = commands[active];
 
   return (
-    <section id="commands" className="py-24 lg:py-32 relative">
+    <section id="commands" className="py-24 lg:py-32 border-b border-border">
       <div className="container mx-auto px-6">
         <div className="max-w-2xl mb-12">
-          <p className="text-sm font-mono text-primary mb-3">// COMMANDS</p>
-          <h2 className="text-4xl lg:text-5xl font-bold tracking-tight mb-4">
-            Simple syntax. <span className="text-gradient">Powerful output.</span>
+          <p className="font-mono text-xs uppercase tracking-[1.4px] text-foreground/50 mb-4">
+            // commands
+          </p>
+          <h2 className="text-4xl lg:text-5xl font-normal tracking-tight mb-4">
+            Simple syntax. Powerful output.
           </h2>
         </div>
 
-        <div className="grid lg:grid-cols-[280px_1fr] gap-6">
-          <div className="flex lg:flex-col gap-2 overflow-x-auto lg:overflow-visible">
+        <div className="grid lg:grid-cols-[320px_1fr] gap-6">
+          <div className="flex lg:flex-col gap-px bg-border">
             {commands.map((c, i) => (
               <button
                 key={c.name}
                 onClick={() => setActive(i)}
-                className={`text-left p-4 rounded-xl border transition-all whitespace-nowrap lg:whitespace-normal ${
+                className={`text-left p-5 transition-colors whitespace-nowrap lg:whitespace-normal flex-1 ${
                   active === i
-                    ? "border-primary/60 bg-primary/10 shadow-glow"
-                    : "border-border bg-card/40 hover:border-border hover:bg-card/70"
+                    ? "bg-[rgba(255,255,255,0.05)] border-l-2 border-l-foreground"
+                    : "bg-background hover:bg-[rgba(255,255,255,0.03)]"
                 }`}
               >
-                <div className="font-mono text-sm font-semibold mb-1">{c.sig}</div>
-                <div className="text-xs text-muted-foreground hidden lg:block">{c.desc}</div>
+                <div className="font-mono text-sm mb-1">{c.sig}</div>
+                <div className="text-xs text-foreground/70 hidden lg:block">{c.desc}</div>
               </button>
             ))}
           </div>
 
-          <div className="rounded-2xl border border-border bg-card/80 backdrop-blur shadow-card overflow-hidden">
-            <div className="flex items-center gap-2 px-4 py-3 border-b border-border bg-secondary/40">
-              <div className="flex gap-1.5">
-                <span className="w-3 h-3 rounded-full bg-destructive/80" />
-                <span className="w-3 h-3 rounded-full bg-warning/80" />
-                <span className="w-3 h-3 rounded-full bg-success/80" />
-              </div>
-              <span className="ml-3 text-xs font-mono text-muted-foreground">{cmd.sig}</span>
+          <div className="border border-border bg-[rgba(255,255,255,0.03)] overflow-hidden">
+            <div className="flex items-center gap-2 px-4 py-3 border-b border-border">
+              <span className="font-mono text-xs uppercase tracking-[1px] text-foreground/50">
+                {cmd.sig}
+              </span>
             </div>
             <pre className="p-6 font-mono text-sm leading-relaxed text-foreground/90 overflow-x-auto whitespace-pre">
 {cmd.output}
