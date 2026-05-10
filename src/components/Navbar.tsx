@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import { Star } from "lucide-react";
 
 export const Navbar = () => {
   return (
@@ -14,11 +15,14 @@ export const Navbar = () => {
           <Link to="/docs" className="text-foreground hover:text-foreground/50 transition-colors">Docs</Link>
         </div>
         <div className="flex items-center gap-3">
-          <a href="#" className="hidden sm:inline-flex btn-mono px-4 py-2 border border-[rgba(255,255,255,0.2)] text-foreground hover:bg-[rgba(255,255,255,0.05)] transition-colors">
-            Sign in
-          </a>
-          <a href="#" className="btn-mono px-4 py-2 bg-foreground text-background hover:bg-foreground/90 transition-colors">
-            Get started
+          <a
+            href="https://github.com/kdm-cli/kdm"
+            target="_blank"
+            rel="noreferrer"
+            className="btn-mono px-4 py-2 inline-flex items-center gap-2 border border-[rgba(255,255,255,0.2)] text-foreground hover:bg-[rgba(255,255,255,0.05)] transition-colors"
+          >
+            <Star className="h-4 w-4" />
+            Star us
           </a>
         </div>
       </nav>
