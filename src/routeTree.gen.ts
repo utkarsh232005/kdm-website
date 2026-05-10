@@ -13,6 +13,7 @@ import { Route as DocsRouteImport } from './routes/docs'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DocsIndexRouteImport } from './routes/docs.index'
 import { Route as DocsInstallationRouteImport } from './routes/docs.installation'
+import { Route as DocsCommandsRouteImport } from './routes/docs.commands'
 
 const DocsRoute = DocsRouteImport.update({
   id: '/docs',
@@ -34,15 +35,22 @@ const DocsInstallationRoute = DocsInstallationRouteImport.update({
   path: '/installation',
   getParentRoute: () => DocsRoute,
 } as any)
+const DocsCommandsRoute = DocsCommandsRouteImport.update({
+  id: '/commands',
+  path: '/commands',
+  getParentRoute: () => DocsRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/docs': typeof DocsRouteWithChildren
+  '/docs/commands': typeof DocsCommandsRoute
   '/docs/installation': typeof DocsInstallationRoute
   '/docs/': typeof DocsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/docs/commands': typeof DocsCommandsRoute
   '/docs/installation': typeof DocsInstallationRoute
   '/docs': typeof DocsIndexRoute
 }
@@ -50,15 +58,22 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/docs': typeof DocsRouteWithChildren
+  '/docs/commands': typeof DocsCommandsRoute
   '/docs/installation': typeof DocsInstallationRoute
   '/docs/': typeof DocsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/docs' | '/docs/installation' | '/docs/'
+  fullPaths: '/' | '/docs' | '/docs/commands' | '/docs/installation' | '/docs/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/docs/installation' | '/docs'
-  id: '__root__' | '/' | '/docs' | '/docs/installation' | '/docs/'
+  to: '/' | '/docs/commands' | '/docs/installation' | '/docs'
+  id:
+    | '__root__'
+    | '/'
+    | '/docs'
+    | '/docs/commands'
+    | '/docs/installation'
+    | '/docs/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -96,15 +111,24 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DocsInstallationRouteImport
       parentRoute: typeof DocsRoute
     }
+    '/docs/commands': {
+      id: '/docs/commands'
+      path: '/commands'
+      fullPath: '/docs/commands'
+      preLoaderRoute: typeof DocsCommandsRouteImport
+      parentRoute: typeof DocsRoute
+    }
   }
 }
 
 interface DocsRouteChildren {
+  DocsCommandsRoute: typeof DocsCommandsRoute
   DocsInstallationRoute: typeof DocsInstallationRoute
   DocsIndexRoute: typeof DocsIndexRoute
 }
 
 const DocsRouteChildren: DocsRouteChildren = {
+  DocsCommandsRoute: DocsCommandsRoute,
   DocsInstallationRoute: DocsInstallationRoute,
   DocsIndexRoute: DocsIndexRoute,
 }
