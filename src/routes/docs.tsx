@@ -1,6 +1,7 @@
 import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { docList } from "@/lib/docs";
 
 export const Route = createFileRoute("/docs")({
   component: DocsLayout,
@@ -12,13 +13,6 @@ export const Route = createFileRoute("/docs")({
   }),
 });
 
-// Add a new doc by creating src/routes/docs.<slug>.tsx and listing it here.
-const docs = [
-  { to: "/docs", label: "Overview", exact: true },
-  { to: "/docs/installation", label: "Installation" },
-  { to: "/docs/commands", label: "Commands" },
-];
-
 function DocsLayout() {
   return (
     <div className="min-h-screen bg-background">
@@ -29,18 +23,21 @@ function DocsLayout() {
             Documentation
           </p>
           <nav className="flex flex-col gap-2 text-sm">
-            {docs.map((d) => (
-              <Link
-                key={d.to}
-                to={d.to}
-                activeOptions={{ exact: d.exact }}
-                activeProps={{ className: "text-foreground" }}
-                inactiveProps={{ className: "text-foreground/50 hover:text-foreground" }}
-                className="font-mono uppercase tracking-[1.4px] text-xs transition-colors"
-              >
-                {d.label}
-              </Link>
-            ))}
+            {docList.map((d) => {
+              const to = d.slug ? `/docs/${d.slug}` : "/docs";
+              return (
+                <Link
+                  key={to}
+                  to={to}
+                  activeOptions={{ exact: true }}
+                  activeProps={{ className: "text-foreground" }}
+                  inactiveProps={{ className: "text-foreground/50 hover:text-foreground" }}
+                  className="font-mono uppercase tracking-[1.4px] text-xs transition-colors"
+                >
+                  {d.title}
+                </Link>
+              );
+            })}
           </nav>
         </aside>
         <main className="max-w-3xl">
