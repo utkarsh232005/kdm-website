@@ -16,7 +16,7 @@ export const Navbar = () => {
         </div>
         <div className="flex items-center gap-3">
           <a
-            href="https://github.com/KDM-cli/kdm-cli.git"
+            href="https://github.com/KDM-cli/kdm-cli"
             target="_blank"
             rel="noreferrer"
             className="btn-mono px-4 py-2 inline-flex items-center gap-2 border border-[rgba(255,255,255,0.2)] text-foreground hover:bg-[rgba(255,255,255,0.05)] transition-colors"

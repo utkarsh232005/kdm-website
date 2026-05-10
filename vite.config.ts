@@ -13,7 +13,9 @@ const isVercel = process.env.VERCEL === "1";
 // @cloudflare/vite-plugin builds from this — wrangler.jsonc main alone is insufficient.
 export default defineConfig({
   cloudflare: !isVercel, // Disable cloudflare plugin on Vercel
-  plugins: isVercel ? [nitro({ preset: 'vercel' })] : [],
+  vite: {
+    plugins: isVercel ? [nitro({ preset: "vercel" })] : [],
+  },
   tanstackStart: {
     server: { entry: "server" },
   },
