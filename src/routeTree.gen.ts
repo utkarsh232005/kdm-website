@@ -12,8 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as DocsRouteImport } from './routes/docs'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DocsIndexRouteImport } from './routes/docs.index'
-import { Route as DocsInstallationRouteImport } from './routes/docs.installation'
-import { Route as DocsCommandsRouteImport } from './routes/docs.commands'
+import { Route as DocsSlugRouteImport } from './routes/docs.$slug'
 
 const DocsRoute = DocsRouteImport.update({
   id: '/docs',
@@ -30,50 +29,36 @@ const DocsIndexRoute = DocsIndexRouteImport.update({
   path: '/',
   getParentRoute: () => DocsRoute,
 } as any)
-const DocsInstallationRoute = DocsInstallationRouteImport.update({
-  id: '/installation',
-  path: '/installation',
-  getParentRoute: () => DocsRoute,
-} as any)
-const DocsCommandsRoute = DocsCommandsRouteImport.update({
-  id: '/commands',
-  path: '/commands',
+const DocsSlugRoute = DocsSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
   getParentRoute: () => DocsRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/docs': typeof DocsRouteWithChildren
-  '/docs/commands': typeof DocsCommandsRoute
-  '/docs/installation': typeof DocsInstallationRoute
+  '/docs/$slug': typeof DocsSlugRoute
   '/docs/': typeof DocsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/docs/commands': typeof DocsCommandsRoute
-  '/docs/installation': typeof DocsInstallationRoute
+  '/docs/$slug': typeof DocsSlugRoute
   '/docs': typeof DocsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/docs': typeof DocsRouteWithChildren
-  '/docs/commands': typeof DocsCommandsRoute
-  '/docs/installation': typeof DocsInstallationRoute
+  '/docs/$slug': typeof DocsSlugRoute
   '/docs/': typeof DocsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/docs' | '/docs/commands' | '/docs/installation' | '/docs/'
+  fullPaths: '/' | '/docs' | '/docs/$slug' | '/docs/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/docs/commands' | '/docs/installation' | '/docs'
-  id:
-    | '__root__'
-    | '/'
-    | '/docs'
-    | '/docs/commands'
-    | '/docs/installation'
-    | '/docs/'
+  to: '/' | '/docs/$slug' | '/docs'
+  id: '__root__' | '/' | '/docs' | '/docs/$slug' | '/docs/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -104,32 +89,23 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DocsIndexRouteImport
       parentRoute: typeof DocsRoute
     }
-    '/docs/installation': {
-      id: '/docs/installation'
-      path: '/installation'
-      fullPath: '/docs/installation'
-      preLoaderRoute: typeof DocsInstallationRouteImport
-      parentRoute: typeof DocsRoute
-    }
-    '/docs/commands': {
-      id: '/docs/commands'
-      path: '/commands'
-      fullPath: '/docs/commands'
-      preLoaderRoute: typeof DocsCommandsRouteImport
+    '/docs/$slug': {
+      id: '/docs/$slug'
+      path: '/$slug'
+      fullPath: '/docs/$slug'
+      preLoaderRoute: typeof DocsSlugRouteImport
       parentRoute: typeof DocsRoute
     }
   }
 }
 
 interface DocsRouteChildren {
-  DocsCommandsRoute: typeof DocsCommandsRoute
-  DocsInstallationRoute: typeof DocsInstallationRoute
+  DocsSlugRoute: typeof DocsSlugRoute
   DocsIndexRoute: typeof DocsIndexRoute
 }
 
 const DocsRouteChildren: DocsRouteChildren = {
-  DocsCommandsRoute: DocsCommandsRoute,
-  DocsInstallationRoute: DocsInstallationRoute,
+  DocsSlugRoute: DocsSlugRoute,
   DocsIndexRoute: DocsIndexRoute,
 }
 
@@ -142,3 +118,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
