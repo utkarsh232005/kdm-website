@@ -11,7 +11,7 @@ export const Navbar = () => {
           <a href="#features" className="text-foreground hover:text-foreground/50 transition-colors">Features</a>
           <a href="#commands" className="text-foreground hover:text-foreground/50 transition-colors">Commands</a>
           <a href="#pricing" className="text-foreground hover:text-foreground/50 transition-colors">Pricing</a>
-          <a href="#docs" className="text-foreground hover:text-foreground/50 transition-colors">Docs</a>
+          <Link to="/docs" className="text-foreground hover:text-foreground/50 transition-colors">Docs</Link>
         </div>
         <div className="flex items-center gap-3">
           <a href="#" className="hidden sm:inline-flex btn-mono px-4 py-2 border border-[rgba(255,255,255,0.2)] text-foreground hover:bg-[rgba(255,255,255,0.05)] transition-colors">
