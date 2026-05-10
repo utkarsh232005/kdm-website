@@ -41,10 +41,10 @@
   --foreground: #ffffff;
   --card: rgba(255, 255, 255, 0.03);
   --card-foreground: #ffffff;
-  --popover: #1f2228;
+  --popover: #000000;
   --popover-foreground: #ffffff;
   --primary: #ffffff;
-  --primary-foreground: #1f2228;
+  --primary-foreground: #000000;
   --secondary: rgba(255, 255, 255, 0.05);
   --secondary-foreground: #ffffff;
   --muted: rgba(255, 255, 255, 0.05);
@@ -52,7 +52,7 @@
   --accent: rgba(255, 255, 255, 0.08);
   --accent-foreground: #ffffff;
   --destructive: #ffffff;
-  --destructive-foreground: #1f2228;
+  --destructive-foreground: #000000;
   --success: #ffffff;
   --warning: rgba(255, 255, 255, 0.7);
   --border: rgba(255, 255, 255, 0.1);
