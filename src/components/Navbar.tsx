@@ -10,7 +10,7 @@ export const Navbar = () => {
         <div className="hidden md:flex items-center gap-8 text-sm">
           <a href="#features" className="text-foreground hover:text-foreground/50 transition-colors">Features</a>
           <a href="#commands" className="text-foreground hover:text-foreground/50 transition-colors">Commands</a>
-          <a href="#pricing" className="text-foreground hover:text-foreground/50 transition-colors">Pricing</a>
+          
           <Link to="/docs" className="text-foreground hover:text-foreground/50 transition-colors">Docs</Link>
         </div>
         <div className="flex items-center gap-3">
